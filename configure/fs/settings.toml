@@ -1,0 +1,21 @@
+# Settings.toml
+
+# Redis Clister Configuration
+redis_pool_max_size = "1500"
+cluster_nodes = ["redis://:YourPassword@127.0.0.1:6379", "redis://:YourPassword@127.0.0.1:6380", "redis://:YourPassword@127.0.0.1:6381"]
+
+#Substrate-Blockchain Confciguration
+enable_blockchain = false
+substrate.ws_url = "ws://127.0.0.1:9944"
+
+
+#Secret Sharing Configuration
+chunk_size = 48
+threshold = 1
+share_amount = 2
+prime = "1602647667098023157650208502760830646118971559180602279760560620305846622963164828915087516998772696148300120393034934719"
+
+
+
+thread_number = 5
+

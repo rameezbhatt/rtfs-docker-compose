@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  r2000:
+    image: 'redis:latest'
+    container_name: redis-cluster-entry
+    platform: linux/amd64
+    ports:
+      - '6379:6379'
+      - '6380:6380'
+      - '6381:6381'
+    volumes:
+      - ./configure/2000/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  r2001:
+    image: 'redis:latest'
+    platform: linux/amd64
+    network_mode: "service:r2000"
+    volumes:
+      - ./configure/2001/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  r2002:
+    image: 'redis:latest'
+    platform: linux/amd64
+    network_mode: "service:r2000"
+    volumes:
+      - ./configure/2002/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    
+
+  sptfs:
+    image: nestdata/ttfs:0.01
+    platform: linux/amd64
+    container_name: ttfs
+    privileged: true
+    network_mode: "service:r2000"
+    volumes:
+      - ./configure/fs/settings.toml:/app/config/settings.toml
+    depends_on:
+      - r2000
+      - r2001
+      - r2002
